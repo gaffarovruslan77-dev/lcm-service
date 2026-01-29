@@ -1,18 +1,20 @@
+using System.Numerics;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-long Gcd(long a, long b) 
+BigInteger Gcd(BigInteger a, BigInteger b) 
 { 
     while (b != 0) 
     { 
-        long temp = b; 
+        BigInteger temp = b; 
         b = a % b; 
         a = temp; 
     } 
     return a; 
 }
 
-long Lcm(long x, long y) 
+BigInteger Lcm(BigInteger x, BigInteger y) 
 { 
     return (x / Gcd(x, y)) * y;
 }
@@ -20,7 +22,7 @@ long Lcm(long x, long y)
 bool IsNaturalNumber(string? value) 
 {
     if (string.IsNullOrWhiteSpace(value)) return false;
-    if (!long.TryParse(value.Trim(), out long number)) return false;
+    if (!BigInteger.TryParse(value.Trim(), out BigInteger number)) return false;
     if (number <= 0) return false;
     if (value.Trim() != number.ToString()) return false;
     return true;
@@ -37,9 +39,9 @@ app.MapGet("/gaffarovruslan77_gmail_com", (HttpContext context) =>
         return Results.Text("NaN");
     }
     
-    long x = long.Parse(xParam!.Trim());
-    long y = long.Parse(yParam!.Trim());
-    long result = Lcm(x, y);
+    BigInteger x = BigInteger.Parse(xParam!.Trim());
+    BigInteger y = BigInteger.Parse(yParam!.Trim());
+    BigInteger result = Lcm(x, y);
     
     context.Response.ContentType = "text/plain; charset=utf-8";
     return Results.Text(result.ToString());
